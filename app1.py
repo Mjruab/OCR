@@ -4,32 +4,92 @@ import numpy as np
 import pytesseract
 from PIL import Image
 
+# ── Configuración ──────────────────────────────────────────────────
+st.set_page_config(page_title="OCR - Reconocimiento de Texto", page_icon="📷", layout="wide")
 
-st.title("Reconocimiento óptico de Caracteres")
+# ── Estilos ────────────────────────────────────────────────────────
+st.markdown("""
+<style>
+.stApp { background-color: #fffde7; color: #333333; }
 
-img_file_buffer = st.camera_input("Toma una Foto")
+div.stButton > button {
+    background-color: #f9a825;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 24px;
+    border: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+div.stButton > button:hover { background-color: #f57f17; color: white; }
+section[data-testid="stSidebar"] { background-color: #fff9c4; }
+h1, h2, h3 { color: #f57f17; }
 
+[data-testid="metric-container"] {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-top: 3px solid #f9a825;
+    border-radius: 8px;
+    padding: 18px 22px;
+}
+[data-testid="metric-container"] label {
+    color: #f57f17 !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+}
+[data-testid="metric-container"] [data-testid="stMetricValue"] {
+    color: #333333 !important;
+    font-weight: 700 !important;
+}
+
+div[data-testid="stExpander"] {
+    border: 1px solid #ffe082 !important;
+    border-radius: 8px !important;
+    background: #fff8e1 !important;
+}
+hr { border-color: #ffe082 !important; }
+
+.texto-resultado {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-left: 5px solid #f9a825;
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333333;
+    white-space: pre-wrap;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ── Título ─────────────────────────────────────────────────────────
+st.title("📷 Reconocimiento Óptico de Caracteres")
+st.markdown("Toma una foto o sube una imagen y extrae automáticamente el texto que contiene.")
+
+# ── Sidebar ────────────────────────────────────────────────────────
 with st.sidebar:
-      filtro = st.radio("Aplicar Filtro",('Con Filtro', 'Sin Filtro'))
+    st.title("⚙️ Opciones")
 
+    fuente = st.radio("📥 Fuente de imagen:", ["📷 Cámara", "🖼️ Subir imagen"])
 
-if img_file_buffer is not None:
-    # To read image file buffer with OpenCV:
-    bytes_data = img_file_buffer.getvalue()
-    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-    
-    if filtro == 'Con Filtro':
-         cv2_img=cv2.bitwise_not(cv2_img)
-    else:
-         cv2_img= cv2_img
-    
-        
-    img_rgb = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
-    text=pytesseract.image_to_string(img_rgb)
-    st.write(text) 
-    
+    st.markdown("---")
+    st.markdown("### 🎨 Filtros de imagen")
+    filtro = st.radio("Selecciona un filtro:", [
+        "Sin filtro",
+        "Invertir colores",
+        "Escala de grises",
+        "Alto contraste",
+    ])
 
+    st.markdown("---")
+    st.markdown("""
+    ### 📖 ¿Cómo funciona?
+    **OCR** (*Optical Character Recognition*) analiza los píxeles de una imagen
+    para identificar letras y palabras.
 
-    
-
-
+    **Consejos para mejores resultados:**
+    - 💡 Buena iluminación
+    - 📄 Texto nítido y sin desenfoque
+    - ⬛ Buen contraste entre
