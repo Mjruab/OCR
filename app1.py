@@ -84,12 +84,10 @@ with st.sidebar:
     ])
 
     st.markdown("---")
-    st.markdown("""
-    ### 📖 ¿Cómo funciona?
-    **OCR** (*Optical Character Recognition*) analiza los píxeles de una imagen
-    para identificar letras y palabras.
-
-    **Consejos para mejores resultados:**
-    - 💡 Buena iluminación
-    - 📄 Texto nítido y sin desenfoque
-    - ⬛ Buen contraste entre
+    st.markdown("### 📖 ¿Cómo funciona?")
+    st.markdown("**OCR** (*Optical Character Recognition*) analiza los píxeles de una imagen para identificar letras y palabras.")
+    st.markdown("**Consejos para mejores resultados:**")
+    st.markdown("- 💡 Buena iluminación")
+    st.markdown("- 📄 Texto nítido y sin desenfoque")
+    st.markdown("- ⬛ Buen contraste entre texto y fondo")
+    st.markdown("- 📐 Imagen lo más recta posible")
